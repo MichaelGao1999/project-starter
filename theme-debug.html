@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>主题调试看板</title>
+  <!-- 替换为项目使用的字体
+  <link href="https://fonts.googleapis.com/css2?family=...&family=...&display=swap" rel="stylesheet">
+  -->
+  <!-- 指向项目的主 CSS 文件（路径按实际结构调整） -->
+  <link rel="stylesheet" href="/src/styles/global.css">
+  <style>
+    /* ════════════════════════════════════════════
+       调试看板样式 — 与项目无关，纯展示用
+       ════════════════════════════════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    h1 { font-family: var(--font-display); font-size: 32px; margin-bottom: 8px; }
+    h2 { font-size: 18px; font-weight: 600; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--color-border); }
+    .sub { color: var(--color-text-secondary); font-size: 14px; margin-bottom: 32px; }
+
+    .color-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+    .color-swatch { width: 120px; }
+    .color-box { width: 100%; height: 60px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); }
+    .color-name { font-size: 13px; font-weight: 600; margin-top: 6px; }
+    .color-value { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary); }
+
+    .gradient-bar { height: 40px; border-radius: var(--radius-sm); margin-bottom: 8px; }
+
+    .font-sample { margin-bottom: 16px; }
+    .font-label { font-size: 12px; color: var(--color-text-secondary); font-family: var(--font-mono); margin-bottom: 4px; }
+    .font-display-sample { font-family: var(--font-display); font-size: 28px; line-height: 1.3; }
+    .font-body-sample { font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+    .font-mono-sample { font-family: var(--font-mono); font-size: 16px; }
+
+    .radius-grid { display: flex; gap: 16px; align-items: flex-start; }
+    .radius-box { width: 80px; height: 80px; background: var(--color-accent); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-family: var(--font-mono); }
+
+    .shadow-grid { display: flex; gap: 24px; }
+    .shadow-box { width: 160px; height: 80px; background: var(--color-surface); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 11px; font-family: var(--font-mono); }
+
+    .btn-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+    .anim-box { width: 40px; height: 40px; background: var(--color-accent); border-radius: var(--radius-sm); }
+    .anim-box.bounce { animation: bounceIn 0.6s var(--ease-bounce) infinite; }
+    .anim-box.shimmer { width: 100%; height: 20px; background: linear-gradient(90deg, var(--color-border) 25%, var(--color-bg) 50%, var(--color-border) 75%); background-size: 200% 100%; animation: shimmer 2s linear infinite; border-radius: var(--radius-sm); }
+
+    @keyframes bounceIn { 0% { transform: scale(0); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  </style>
+</head>
+<body>
+  <h1>🎨 主题调试看板</h1>
+  <p class="sub">改项目的 CSS 变量 → 刷新本页即可预览效果</p>
+
+  <!-- ===== 主色 ===== -->
+  <h2>主色</h2>
+  <div class="color-grid">
+    <div class="color-swatch">
+      <div class="color-box" style="background: var(--color-accent)"></div>
+      <div class="color-name">--color-accent</div>
+      <div class="color-value" id="val-accent"></div>
+    </div>
+  </div>
+
+  <!-- ===== 维度色（替换为项目的分类色）===== -->
+  <h2>维度色</h2>
+  <div class="color-grid">
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-dimension-1)"></div><div class="color-name">--color-dimension-1</div><div class="color-value" id="val-d1"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-dimension-2)"></div><div class="color-name">--color-dimension-2</div><div class="color-value" id="val-d2"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-dimension-3)"></div><div class="color-name">--color-dimension-3</div><div class="color-value" id="val-d3"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-dimension-4)"></div><div class="color-name">--color-dimension-4</div><div class="color-value" id="val-d4"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-dimension-5)"></div><div class="color-name">--color-dimension-5</div><div class="color-value" id="val-d5"></div></div>
+  </div>
+
+  <!-- ===== 表面色 ===== -->
+  <h2>表面色（背景 / 卡片 / 文字 / 边框）</h2>
+  <div class="color-grid">
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-bg); border: 2px solid var(--color-border)"></div><div class="color-name">--color-bg</div><div class="color-value" id="val-bg"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-surface); border: 2px solid var(--color-border)"></div><div class="color-name">--color-surface</div><div class="color-value" id="val-surface"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-text)"></div><div class="color-name">--color-text</div><div class="color-value" style="color:#fff" id="val-text"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-text-secondary)"></div><div class="color-name">--color-text-secondary</div><div class="color-value" style="color:#fff" id="val-secondary"></div></div>
+    <div class="color-swatch"><div class="color-box" style="background: var(--color-border); height: 30px; margin-top: 15px"></div><div class="color-name">--color-border</div><div class="color-value" id="val-border"></div></div>
+  </div>
+
+  <!-- ===== 渐变 ===== -->
+  <h2>渐变</h2>
+  <div class="gradient-bar" style="background: var(--gradient-primary)"></div>
+  <div class="color-value">--gradient-primary</div>
+
+  <!-- ===== 字体 ===== -->
+  <h2>字体</h2>
+  <div class="font-sample">
+    <div class="font-label">--font-display</div>
+    <div class="font-display-sample">标题字体 — The quick brown fox</div>
+  </div>
+  <div class="font-sample">
+    <div class="font-label">--font-body</div>
+    <div class="font-body-sample">正文字体。设计系统调试面板，帮助你可视化所有设计 Token。</div>
+  </div>
+  <div class="font-sample">
+    <div class="font-label">--font-mono</div>
+    <div class="font-mono-sample">等宽字体: 1+1=2 | const x = 42;</div>
+  </div>
+
+  <!-- ===== 圆角 ===== -->
+  <h2>圆角</h2>
+  <div class="radius-grid">
+    <div class="radius-box" style="border-radius: var(--radius-sm)">sm</div>
+    <div class="radius-box" style="border-radius: var(--radius-md)">md</div>
+    <div class="radius-box" style="border-radius: var(--radius-lg)">lg</div>
+    <div class="radius-box" style="border-radius: var(--radius-full)">full</div>
+  </div>
+
+  <!-- ===== 阴影 ===== -->
+  <h2>阴影</h2>
+  <div class="shadow-grid">
+    <div class="shadow-box" style="box-shadow: var(--shadow-sm)">shadow-sm</div>
+    <div class="shadow-box" style="box-shadow: var(--shadow-md)">shadow-md</div>
+    <div class="shadow-box" style="box-shadow: var(--shadow-lg)">shadow-lg</div>
+  </div>
+
+  <!-- ===== 按钮 ===== -->
+  <h2>按钮</h2>
+  <div class="btn-row">
+    <button class="demo-btn">确认提交</button>
+    <button class="demo-btn-outline">取消</button>
+  </div>
+
+  <!-- ===== 卡片 ===== -->
+  <h2>卡片</h2>
+  <div class="demo-card" style="padding: 24px; max-width: 300px">
+    <p style="font-weight: 600; margin-bottom: 8px">示例卡片</p>
+    <p style="font-size: 14px; color: var(--color-text-secondary)">使用 demo-card 类即可获得一致的圆角、边框和阴影。</p>
+  </div>
+
+  <!-- ===== 动画 ===== -->
+  <h2>动画</h2>
+  <div style="display: flex; gap: 24px; align-items: center">
+    <div><div class="anim-box bounce"></div><div style="font-size: 12px; margin-top: 4px">bounceIn</div></div>
+    <div style="flex:1"><div class="anim-box shimmer"></div><div style="font-size: 12px; margin-top: 4px">shimmer</div></div>
+  </div>
+
+  <script>
+    // 读取计算后的 CSS 变量值，显示色值
+    // 按实际项目的 CSS 变量名修改 cssNames 数组
+    const style = getComputedStyle(document.documentElement);
+    const ids = ['val-accent','val-d1','val-d2','val-d3','val-d4','val-d5','val-bg','val-surface','val-text','val-secondary','val-border'];
+    const cssNames = ['--color-accent','--color-dimension-1','--color-dimension-2','--color-dimension-3','--color-dimension-4','--color-dimension-5','--color-bg','--color-surface','--color-text','--color-text-secondary','--color-border'];
+    ids.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = style.getPropertyValue(cssNames[i]).trim();
+    });
+  </script>
+</body>
+</html>

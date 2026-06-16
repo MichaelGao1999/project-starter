@@ -1,0 +1,29 @@
+{
+  "_comment": "跨项目知识同步配置。修改后运行 python scripts/sync-knowledge.py 同步更新。",
+  "username": "your-github-username",
+  "includeRepos": [],
+  "excludeRepos": [],
+  "syncFrom": "agent-coding-skeleton",
+  "_syncFromNote": "只从指定母库聚合经验。如需聚合所有仓库，请清空此字段。",
+  "targetFiles": [
+    "ADR.md",
+    "lessons-learned.md",
+    "troubleshooting.md"
+  ],
+  "branch": "master",
+  "backupBeforeMerge": true,
+  "mergeStrategy": {
+    "lessonsLearned": {
+      "dedupBy": "description",
+      "action": "mergeSources"
+    },
+    "troubleshooting": {
+      "dedupBy": "keyword",
+      "action": "keepLongestSolution"
+    },
+    "ADR": {
+      "dedupBy": "none",
+      "action": "appendAll"
+    }
+  }
+}
